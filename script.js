@@ -49,14 +49,38 @@ window.addEventListener("load", function () {
       this.height = 200;
       this.x = 0;
       this.y = this.gameHeight - this.height;
+      // bringing in sprite image
+      this.image = document.getElementById("playerImage");
+      this.frameX = 0;
+      this.frameY = 0;
+      // when speed is posotive player will move right, when negative move to left on horizonal x.
+      this.speed = 0;
     }
     draw(context) {
       context.fillStyle = "white";
       context.fillRect(this.x, this.y, this.width, this.height);
+      context.drawImage(
+        this.image,
+        this.frameX * this.width,
+        this.frameY * this.height,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
     }
-    update() {
-      // every call fo update method increment x coordinates by 1
-      this.x++;
+    update(input) {
+      // every call of update method increment x coordinates by speed of posotive go right negative number go left.
+      // horiztonal movment
+      this.x += this.speed;
+      if (input.keys.indexOf("ArrowRight") > -1) {
+        // if index of the keys input is arrow up, run this code.
+        this.speed = 5;
+      } else {
+        this.speed = 0;
+      }
     }
   }
 
@@ -80,7 +104,7 @@ window.addEventListener("load", function () {
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.draw(ctx);
-    player.update();
+    player.update(input);
     // request animation to loop animate parent
     requestAnimationFrame(animate);
   }

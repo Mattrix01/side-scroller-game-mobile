@@ -150,7 +150,36 @@ window.addEventListener("load", function () {
   }
 
   // class to generate enemies
-  class Enemy {}
+  class Enemy {
+    // constructor for enemy blueprint, passing in gameWidth and Height so the enemy knows the area boundries.
+    constructor(gameWidth, gameHeight) {
+      this.gameWidth = gameWidth;
+      this.gameHeight = gameHeight;
+      this.width = 160;
+      this.height = 119;
+      this.image = document.getElementById("enemyImage");
+      this.x = this.gameWidth;
+      this.y = this.gameHeight - this.height;
+      // for horizontal navigation in sprite sheet
+      this.frameX = 0;
+    }
+    draw(context) {
+      context.drawImage(
+        this.image,
+        this.frameX * this.width,
+        0,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+    update() {
+      this.x--;
+    }
+  }
 
   // function for multiple active enemies,responsible for adding, animating and removing enemies
   function handleEnemies() {}
@@ -162,6 +191,7 @@ window.addEventListener("load", function () {
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
   const background = new Background(canvas.width, canvas.height);
+  const enemy1 = new Enemy(canvas.width, canvas.height);
 
   // main animation loop, function will run 60 times a second updating and drawing over and over.
   function animate() {
@@ -170,6 +200,8 @@ window.addEventListener("load", function () {
     background.update();
     player.draw(ctx);
     player.update(input);
+    enemy1.draw(ctx);
+    enemy1.update();
     // request animation to loop animate parent
     requestAnimationFrame(animate);
   }

@@ -162,6 +162,12 @@ window.addEventListener("load", function () {
       this.y = this.gameHeight - this.height;
       // for horizontal navigation in sprite sheet
       this.frameX = 0;
+      this.maxFrame = 5;
+      // will affect how fast we swap between animation frames.
+      this.fps = 20;
+      this.frameTimer = 0;
+      // how long each frame lasts
+      this.frameInterval = 1000 / this.fps;
       this.speed = 8;
     }
     draw(context) {
@@ -177,7 +183,10 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    update() {
+    update(deltaTime) {
+      // if statement which will cycle upto the max frame depending on frame count
+      if (this.frameX >= this.maxFrame) this.frameX = 0;
+      else this.frameX++;
       this.x -= this.speed;
     }
   }
@@ -194,7 +203,7 @@ window.addEventListener("load", function () {
     // for each enemy object inside enemies array, call there draw and update method.
     enemies.forEach((enemy) => {
       enemy.draw(ctx);
-      enemy.update();
+      enemy.update(deltaTime);
     });
   }
 

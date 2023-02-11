@@ -41,7 +41,24 @@ window.addEventListener("load", function () {
   }
 
   // will react to the inputHandler keys, as they are pressed drawing and udpating the player
-  class Player {}
+  class Player {
+    constructor(gameWidth, gameHeight) {
+      this.gameWidth = gameWidth;
+      this.gameHeight = gameHeight;
+      this.width = 200;
+      this.height = 200;
+      this.x = 0;
+      this.y = this.gameHeight - this.height;
+    }
+    draw(context) {
+      context.fillStyle = "white";
+      context.fillRect(this.x, this.y, this.width, this.height);
+    }
+    update() {
+      // every call fo update method increment x coordinates by 1
+      this.x++;
+    }
+  }
 
   // handles endlessly scrolling background
   class Background {}
@@ -55,9 +72,17 @@ window.addEventListener("load", function () {
   // utility function which will handle displaying score and game over message
   function displayStatusText() {}
 
-  // instance of inputHandler class which will run all the code inside of its contructor. executing the code.
+  // instance of classes which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();
+  const player = new Player(canvas.width, canvas.height);
 
   // main animation loop, function will run 60 times a second updating and drawing over and over.
-  function animate() {}
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    player.draw(ctx);
+    player.update();
+    // request animation to loop animate parent
+    requestAnimationFrame(animate);
+  }
+  animate();
 });

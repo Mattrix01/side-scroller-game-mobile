@@ -185,8 +185,14 @@ window.addEventListener("load", function () {
     }
     update(deltaTime) {
       // if statement which will cycle upto the max frame depending on frame count
-      if (this.frameX >= this.maxFrame) this.frameX = 0;
-      else this.frameX++;
+      if (this.frameTimer > this.frameInterval) {
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
+        else this.frameX++;
+        this.frameTimer = 0;
+      } else {
+        // else keep adding delta time to frame timer untill the threshold of ms defined in frame interval is reached.
+        this.frameTimer += deltaTime;
+      }
       this.x -= this.speed;
     }
   }

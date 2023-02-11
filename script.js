@@ -100,9 +100,11 @@ window.addEventListener("load", function () {
       // checking player jump state, if player is not on the ground in the air, take this.vy and increase by this.weight
       if (!this.onGround()) {
         this.vy += this.weight;
+        this.frameY = 1;
       } else {
         // reswet velocity when player on round to stop vertical movement.
         this.vy = 0;
+        this.frameY = 0;
       }
       // vertical boundry for jump so doesn't go through floor
       if (this.y > this.gameHeight - this.height)
@@ -115,7 +117,37 @@ window.addEventListener("load", function () {
   }
 
   // handles endlessly scrolling background
-  class Background {}
+  class Background {
+    constructor(gameWidth, gameHeight) {
+      this.gameWidth = gameWidth;
+      this.gameHeight = gameHeight;
+      this.image = document.getElementById("backgroundImage");
+      this.x = 0;
+      this.y = 0;
+      // dimensions of background image
+      this.width = 2400;
+      this.height = 720;
+      this.speed = 7;
+    }
+    // draw method taking context of argument to specify which canvas to draw on.
+    draw(context) {
+      context.drawImage(this.image, this.x, this.y, this.width, this.height);
+      // second image for seamless transition for constant background with no black space.
+      context.drawImage(
+        this.image,
+        this.x + this.width - this.speed,
+        this.y,
+        this.width,
+        this.height
+      );
+    }
+    update() {
+      // this will makebabckground scroll to the left
+      this.x -= this.speed;
+      // reset check, if it went off screen set x position back to 0.
+      if (this.x < 0 - this.width) this.x = 0;
+    }
+  }
 
   // class to generate enemies
   class Enemy {}
@@ -129,10 +161,13 @@ window.addEventListener("load", function () {
   // instance of classes which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);
+  const background = new Background(canvas.width, canvas.height);
 
   // main animation loop, function will run 60 times a second updating and drawing over and over.
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    background.draw(ctx);
+    background.update();
     player.draw(ctx);
     player.update(input);
     // request animation to loop animate parent

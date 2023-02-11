@@ -78,9 +78,15 @@ window.addEventListener("load", function () {
       if (input.keys.indexOf("ArrowRight") > -1) {
         // if index of the keys input is arrow up, run this code.
         this.speed = 5;
+      } else if (input.keys.indexOf("ArrowLeft") > -1) {
+        this.speed = -5;
       } else {
         this.speed = 0;
       }
+      // to stop player going off screen
+      if (this.x < 0) this.x = 0;
+      else if (this.x > this.gameWidth - this.width)
+        this.x = this.gameWidth - this.width;
     }
   }
 

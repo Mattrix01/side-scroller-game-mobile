@@ -8,10 +8,15 @@ window.addEventListener("load", function () {
   // will apply event listeners to keybaord events and hold an array of all currently active keys
   class InputHandler {
     constructor() {
-      // array fo keys adding and removing from it as they are rpessed and released. keep track of multiple presses.
+      // array of keys adding and removing from it as they are rpessed and released. keep track of multiple presses.
       this.keys = [];
-      window.addEventListener("keydown", function (e) {
-        console.log(e);
+      // using ES6 arrow function to make sure JS doesnt forget which object this keys is.
+      window.addEventListener("keydown", (e) => {
+        // if statement, if key that was pressed is arrow down and if that key is npt yet inside the this.keys, only then push it into the array.
+        if (e.key === "ArrowDown" && this.keys.indexOf(e.key) === -1) {
+          this.keys.push(e.key);
+        }
+        console.log(this.keys);
       });
     }
   }

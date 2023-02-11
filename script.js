@@ -8,15 +8,34 @@ window.addEventListener("load", function () {
   // will apply event listeners to keybaord events and hold an array of all currently active keys
   class InputHandler {
     constructor() {
-      // array of keys adding and removing from it as they are rpessed and released. keep track of multiple presses.
+      // array of keys adding and removing from it as they are pressed and released. keep track of multiple presses.
+      // holds information fo which arrow keys are currently pressed.
       this.keys = [];
       // using ES6 arrow function to make sure JS doesnt forget which object this keys is.
       window.addEventListener("keydown", (e) => {
-        // if statement, if key that was pressed is arrow down and if that key is npt yet inside the this.keys, only then push it into the array.
-        if (e.key === "ArrowDown" && this.keys.indexOf(e.key) === -1) {
+        // if statement, if key that was pressed is arrow down and if that key is not yet inside the this.keys, only then push it into the array.
+        // listening for all arrow keys
+        if (
+          (e.key === "ArrowDown" ||
+            e.key === "ArrowUp" ||
+            e.key === "ArrowLeft" ||
+            e.key === "ArrowRight") &&
+          this.keys.indexOf(e.key) === -1
+        ) {
           this.keys.push(e.key);
         }
-        console.log(this.keys);
+      });
+      // When we release a key, if that key was arrow down, find index of that key inside this.keys array and use splice to remove on element from that array.
+      // now when down arrow is pressed it is added, when it is released it is removed.
+      window.addEventListener("keyup", (e) => {
+        if (
+          e.key === "ArrowDown" ||
+          e.key === "ArrowUp" ||
+          e.key === "ArrowLeft" ||
+          e.key === "ArrowRight"
+        ) {
+          this.keys.splice(this.keys.indexOf(e.key), 1);
+        }
       });
     }
   }
@@ -36,7 +55,7 @@ window.addEventListener("load", function () {
   // utility function which will handle displaying score and game over message
   function displayStatusText() {}
 
-  // instance of inputHandler class which will run all the code inside of its contructor.
+  // instance of inputHandler class which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();
 
   // main animation loop, function will run 60 times a second updating and drawing over and over.

@@ -116,7 +116,7 @@ window.addEventListener("load", function () {
       if (!this.onGround()) {
         this.vy += this.weight;
         // dealing with sprite sheet jump animation less frames
-        this.maxframe = 5;
+        this.maxFrame = 5;
         this.frameY = 1;
       } else {
         // reset velocity when player on round to stop vertical movement.

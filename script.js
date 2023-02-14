@@ -52,7 +52,13 @@ window.addEventListener("load", function () {
       // bringing in sprite image
       this.image = document.getElementById("playerImage");
       this.frameX = 0;
+      this.maxFrame = 8;
       this.frameY = 0;
+      // will affect how fast we swap between animation frames.
+      this.fps = 20;
+      this.frameTimer = 0;
+      // how long each frame lasts
+      this.frameInterval = 1000 / this.fps;
       // when speed is posotive player will move right, when negative move to left on horizonal x.
       this.speed = 0;
       // for vertical movement on up arrow
@@ -74,10 +80,19 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    update(input) {
-      // every call of update method increment x coordinates by speed of posotive go right negative number go left.
+    update(input, deltaTime) {
+      // sprite animation
+      if (this.frameTimer > this.frameInterval) {
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
+        else this.frameX++;
+        this.frameTimer = 0;
+      } else {
+        this.frameTimer += deltaTime;
+      }
       // controls
       if (input.keys.indexOf("ArrowRight") > -1) {
+        // every call of update method increment x coordinates by speed of posotive go right negative number go left.
+        // controls
         // if index of the keys input is arrow up, run this code.
         this.speed = 5;
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
@@ -100,10 +115,13 @@ window.addEventListener("load", function () {
       // checking player jump state, if player is not on the ground in the air, take this.vy and increase by this.weight
       if (!this.onGround()) {
         this.vy += this.weight;
+        // dealing with sprite sheet jump animation less frames
+        this.maxframe = 5;
         this.frameY = 1;
       } else {
-        // reswet velocity when player on round to stop vertical movement.
+        // reset velocity when player on round to stop vertical movement.
         this.vy = 0;
+        this.maxFrame = 8;
         this.frameY = 0;
       }
       // vertical boundry for jump so doesn't go through floor
@@ -235,7 +253,7 @@ window.addEventListener("load", function () {
     background.draw(ctx);
     background.update();
     player.draw(ctx);
-    player.update(input);
+    player.update(input, deltaTime);
     handleEnemies(deltaTime);
     // request animation to loop animate parent
     requestAnimationFrame(animate);

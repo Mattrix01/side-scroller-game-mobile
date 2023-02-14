@@ -4,6 +4,8 @@ window.addEventListener("load", function () {
   const ctx = canvas.getContext("2d");
   canvas.width = 800;
   canvas.height = 720;
+  let enemies = [];
+  let score = 0;
 
   // will apply event listeners to keybaord events and hold an array of all currently active keys
   class InputHandler {
@@ -187,6 +189,8 @@ window.addEventListener("load", function () {
       // how long each frame lasts
       this.frameInterval = 1000 / this.fps;
       this.speed = 8;
+      // to remove enemies off screen from array
+      this.markedForDeletion = false;
     }
     draw(context) {
       context.drawImage(
@@ -212,10 +216,11 @@ window.addEventListener("load", function () {
         this.frameTimer += deltaTime;
       }
       this.x -= this.speed;
+      // to remove enemies off screen from array
+      if (this.x < 0 - this.width) this.markedForDeletion = true;
     }
   }
 
-  let enemies = [];
   // function for multiple active enemies,responsible for adding, animating and removing enemies
   function handleEnemies(deltaTime) {
     if (enemyTimer > enemyInterval + randomEnemyInterval) {
@@ -229,6 +234,8 @@ window.addEventListener("load", function () {
       enemy.draw(ctx);
       enemy.update(deltaTime);
     });
+    // filter method to only include elements with marked for deletion set to false, creates a new array for all elements that passed.
+    enemies = enemies.filter((enemy) => !enemy.markedForDeletion);
   }
 
   // utility function which will handle displaying score and game over message

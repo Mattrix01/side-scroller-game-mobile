@@ -69,19 +69,24 @@ window.addEventListener("load", function () {
       this.weight = 1;
     }
     draw(context) {
-      // square hitbox
-      context.strokeStyle = "white";
-      context.strokeRect(this.x, this.y, this.width, this.height);
-      context.beginPath();
-      // circle hitbox need to offset from top left corner.
-      context.arc(
-        this.x + this.width / 2,
-        this.y + this.height / 2,
-        this.width / 2,
-        0,
-        Math.PI * 2
-      );
-      context.stroke();
+      // // square hitbox
+      // context.strokeStyle = "white";
+      // context.strokeRect(this.x, this.y, this.width, this.height);
+      // context.beginPath();
+      // // circle hitbox need to offset from top left corner.
+      // context.arc(
+      //   this.x + this.width / 2,
+      //   this.y + this.height / 2,
+      //   this.width / 2,
+      //   0,
+      //   Math.PI * 2
+      // );
+      // context.stroke();
+      // // collision circle tweak
+      // context.strokeStyle = "blue";
+      // context.beginPath();
+      // context.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
+      // context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -101,8 +106,9 @@ window.addEventListener("load", function () {
       // if distance is less than these 2 radii together then we know we have collision using Pythag theroum
       // creating imaginary centre line with pythagoreum theroy between objects centre point!
       enemies.forEach((enemy) => {
-        const dx = enemy.x - this.x;
-        const dy = enemy.y - this.y;
+        // here we do offset for blue hitboxes on const dx & dy.
+        const dx = enemy.x + enemy.width / 2 - (this.x + this.width / 2);
+        const dy = enemy.y + enemy.height / 2 - (this.y + this.height / 2);
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < enemy.width / 2 + this.width / 2) {
           gameOver = true;
@@ -219,18 +225,23 @@ window.addEventListener("load", function () {
     }
     draw(context) {
       // hitbox
-      context.strokeStyle = "white";
-      context.strokeRect(this.x, this.y, this.width, this.height);
-      context.beginPath();
-      // circle hitbox need to offset from top left corner.
-      context.arc(
-        this.x + this.width / 2,
-        this.y + this.height / 2,
-        this.width / 2,
-        0,
-        Math.PI * 2
-      );
-      context.stroke();
+      // context.strokeStyle = "white";
+      // context.strokeRect(this.x, this.y, this.width, this.height);
+      // context.beginPath();
+      // // circle hitbox need to offset from top left corner.
+      // context.arc(
+      //   this.x + this.width / 2,
+      //   this.y + this.height / 2,
+      //   this.width / 2,
+      //   0,
+      //   Math.PI * 2
+      // );
+      // context.stroke();
+      // // collision circle tweak
+      // context.strokeStyle = "blue";
+      // context.beginPath();
+      // context.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
+      // context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -288,6 +299,14 @@ window.addEventListener("load", function () {
     context.fillText("Score: " + score, 20, 50);
     context.fillStyle = "white";
     context.fillText("Score: " + score, 22, 52);
+    // gameover message
+    if (gameOver) {
+      context.textAlign = "center";
+      context.fillStyle = "black";
+      context.fillText("GAME OVER, TRY AGAIN!", canvas.width / 2, 200);
+      context.fillStyle = "white";
+      context.fillText("GAME OVER, TRY AGAIN!", canvas.width / 2 + 2, 202);
+    }
   }
 
   // instance of classes which will run all the code inside of its contructor. executing the code.

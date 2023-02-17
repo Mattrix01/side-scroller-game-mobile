@@ -9,6 +9,7 @@ body {
   border: 5px solid white;
 }
 #playerImage,
+#playerImageJump,
 #backgroundImage,
 #enemyImage {
   display: none;

@@ -1,6 +1,6 @@
 # side-scroller-game-mobile
 
-side-scroller game with mobile support
+side-scroller game with soon to come mobile support featuring my dad at his work place Lucas Aerospace.
 
 # Instructions
 

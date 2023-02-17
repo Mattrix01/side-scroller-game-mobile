@@ -80,7 +80,7 @@ window.addEventListener("load", function () {
     draw(context) {
       // for jump sprite sheet
       if (input.keys.includes("ArrowUp")) {
-        history.maxFrame = 15;
+        this.maxFrame = 15;
         context.drawImage(
           this.imageJump,
           this.frameX * this.widthJump,

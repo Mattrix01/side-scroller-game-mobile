@@ -239,7 +239,12 @@ window.addEventListener("load", function () {
   }
 
   // utility function which will handle displaying score and game over message
-  function displayStatusText() {}
+  function displayStatusText(context) {
+    context.fillStyle = "black";
+    context.font = "40px Helvetica";
+    // fillText() method = text we want to draw + x & y coordinates conrext.fillText(text,x,y)
+    context.fillText("Score: " + score, 20, 50);
+  }
 
   // instance of classes which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();
@@ -262,6 +267,7 @@ window.addEventListener("load", function () {
     player.draw(ctx);
     player.update(input, deltaTime);
     handleEnemies(deltaTime);
+    displayStatusText(ctx);
     // request animation to loop animate parent
     requestAnimationFrame(animate);
   }

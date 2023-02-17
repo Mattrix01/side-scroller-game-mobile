@@ -1,5 +1,8 @@
 // load event waits for all assets and images before executes code in its call back function/
 window.addEventListener("load", function () {
+  const audio = new Audio();
+  audio.src = document.getElementById("audio1").src;
+  audio.play();
   const canvas = this.document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
   canvas.width = 1000;
@@ -77,6 +80,7 @@ window.addEventListener("load", function () {
     draw(context) {
       // for jump sprite sheet
       if (input.keys.includes("ArrowUp")) {
+        history.maxFrame = 15;
         context.drawImage(
           this.imageJump,
           this.frameX * this.widthJump,

@@ -51,13 +51,15 @@ window.addEventListener("load", function () {
       // 200 7023/50 = 140.46
       this.width = 140.46;
       this.height = 200;
+      // 200 2293/18 = 127.38
+      this.widthJump = 127.38;
+      this.heightJump = 200;
       this.x = 0;
       this.y = this.gameHeight - this.height;
       // bringing in sprite image
       this.image = document.getElementById("playerImage");
       // jump
-      this.playerImageJump = document.getElementById("playerImageJump");
-      this.playerImageUp = document.getElementById("playerImageUp");
+      this.imageJump = document.getElementById("playerImageJump");
       this.frameX = 0;
       this.maxFrame = 49;
       this.frameY = 0;
@@ -73,35 +75,33 @@ window.addEventListener("load", function () {
       this.weight = 1;
     }
     draw(context) {
-      // // square hitbox
-      // context.strokeStyle = "white";
-      // context.strokeRect(this.x, this.y, this.width, this.height);
-      // context.beginPath();
-      // // circle hitbox need to offset from top left corner.
-      // context.arc(
-      //   this.x + this.width / 2,
-      //   this.y + this.height / 2,
-      //   this.width / 2,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // context.stroke();
-      // // collision circle tweak
-      // context.strokeStyle = "blue";
-      // context.beginPath();
-      // context.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
-      // context.stroke();
-      context.drawImage(
-        this.image,
-        this.frameX * this.width,
-        this.frameY * this.height,
-        this.width,
-        this.height,
-        this.x,
-        this.y,
-        this.width,
-        this.height
-      );
+      // for jump sprite sheet
+      if (input.keys.includes("ArrowUp")) {
+        context.drawImage(
+          this.imageJump,
+          this.frameX * this.widthJump,
+          this.frameY * this.heightJump,
+          this.widthJump,
+          this.heightJump,
+          this.x,
+          this.y,
+          this.width,
+          this.height
+        );
+      } else {
+        // for run sprite sheet
+        context.drawImage(
+          this.image,
+          this.frameX * this.width,
+          this.frameY * this.height,
+          this.width,
+          this.height,
+          this.x,
+          this.y,
+          this.width,
+          this.height
+        );
+      }
     }
     // making sure update method on player expects enemies array argument for collision detection
     update(input, deltaTime, enemies) {

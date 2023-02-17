@@ -216,8 +216,11 @@ window.addEventListener("load", function () {
         this.frameTimer += deltaTime;
       }
       this.x -= this.speed;
-      // to remove enemies off screen from array
-      if (this.x < 0 - this.width) this.markedForDeletion = true;
+      // to remove enemies off screen from array, count score everytime enemy moves off screen
+      if (this.x < 0 - this.width) {
+        this.markedForDeletion = true;
+        score++;
+      }
     }
   }
 
@@ -239,11 +242,14 @@ window.addEventListener("load", function () {
   }
 
   // utility function which will handle displaying score and game over message
+  // repeating score code to cast shadow as some browsers shadow property causes lag.
+  // fillText() method = text we want to draw + x & y coordinates conrext.fillText(text,x,y)
   function displayStatusText(context) {
-    context.fillStyle = "black";
     context.font = "40px Helvetica";
-    // fillText() method = text we want to draw + x & y coordinates conrext.fillText(text,x,y)
+    context.fillStyle = "black";
     context.fillText("Score: " + score, 20, 50);
+    context.fillStyle = "white";
+    context.fillText("Score: " + score, 22, 52);
   }
 
   // instance of classes which will run all the code inside of its contructor. executing the code.

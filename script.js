@@ -327,7 +327,7 @@ window.addEventListener("load", function () {
   // for delta time
   let lastTime = 0;
   let enemyTimer = 0;
-  let enemyInterval = 1000;
+  let enemyInterval = 400;
   let randomEnemyInterval = Math.random() * 1000 + 500;
 
   // main animation loop, function will run 60 times a second updating and drawing over and over.

@@ -6,6 +6,7 @@ window.addEventListener("load", function () {
   canvas.height = 720;
   let enemies = [];
   let score = 0;
+  let gameOver = false;
 
   // will apply event listeners to keybaord events and hold an array of all currently active keys
   class InputHandler {
@@ -93,7 +94,20 @@ window.addEventListener("load", function () {
         this.height
       );
     }
-    update(input, deltaTime) {
+    // making sure update method on player expects enemies array argument for collision detection
+    update(input, deltaTime, enemies) {
+      // collision detection below
+      // calculating distance between centre of each circle and compare distance with radius of circle 1 or 2
+      // if distance is less than these 2 radii together then we know we have collision using Pythag theroum
+      // creating imaginary centre line with pythagoreum theroy between objects centre point!
+      enemies.forEach((enemy) => {
+        const dx = enemy.x - this.x;
+        const dy = enemy.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < enemy.width / 2 + this.width / 2) {
+          gameOver = true;
+        }
+      });
       // sprite animation
       if (this.frameTimer > this.frameInterval) {
         if (this.frameX >= this.maxFrame) this.frameX = 0;
@@ -295,11 +309,12 @@ window.addEventListener("load", function () {
     background.draw(ctx);
     background.update();
     player.draw(ctx);
-    player.update(input, deltaTime);
+    player.update(input, deltaTime, enemies);
     handleEnemies(deltaTime);
     displayStatusText(ctx);
     // request animation to loop animate parent
-    requestAnimationFrame(animate);
+    // if statement on animation for game over stops running if collision detected. Only if gameOver is false we run animation
+    if (!gameOver) requestAnimationFrame(animate);
   }
   animate(0);
 });

@@ -55,6 +55,9 @@ window.addEventListener("load", function () {
       this.y = this.gameHeight - this.height;
       // bringing in sprite image
       this.image = document.getElementById("playerImage");
+      // jump
+      this.playerImageJump = document.getElementById("playerImageJump");
+      this.playerImageUp = document.getElementById("playerImageUp");
       this.frameX = 0;
       this.maxFrame = 49;
       this.frameY = 0;
@@ -150,8 +153,9 @@ window.addEventListener("load", function () {
       if (!this.onGround()) {
         this.vy += this.weight;
         // dealing with sprite sheet jump animation less frames
+
         this.maxFrame = 15;
-        this.frameY = 1;
+        this.frameY = 0;
       } else {
         // reset velocity when player on round to stop vertical movement.
         this.vy = 0;

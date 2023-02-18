@@ -52,8 +52,11 @@ window.addEventListener("load", function () {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
       // 200 7023/50 = 140.46
-      this.width = 140.46;
-      this.height = 200;
+      // this.width = 140.46;
+      // this.height = 200;
+      // 215 7549/50 = 150.98
+      this.width = 150.98;
+      this.height = 215;
       // 200 2293/18 = 127.38
       this.widthJump = 127.38;
       this.heightJump = 200;

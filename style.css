@@ -23,3 +23,13 @@ body {
 #enemyImage {
   display: none;
 }
+
+#fullScreenButton {
+  position: absolute;
+  font-size: 20px;
+  padding: 10px;
+  top: 10px;
+  left: 50%;
+  /* to center horizontally */
+  transform: translateX(-50%);
+}

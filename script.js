@@ -10,6 +10,8 @@ window.addEventListener("load", function () {
   let enemies = [];
   let score = 0;
   let gameOver = false;
+  // target fullscreen button added
+  const fullScreenButton = this.document.getElementById("fullScreenButton");
 
   // will apply event listeners to keybaord events and hold an array of all currently active keys
   class InputHandler {
@@ -351,13 +353,13 @@ window.addEventListener("load", function () {
       context.textAlign = "center";
       context.fillStyle = "black";
       context.fillText(
-        "GAME OVER, PRESS ENTER TO RESTART!",
+        "GAME OVER, Press Enter or swipe down to Restart!",
         canvas.width / 2,
         200
       );
       context.fillStyle = "white";
       context.fillText(
-        "GAME OVER, PRESS ENTER TO RESTART!",
+        "GAME OVER, Press Enter or swipe down to Restart!",
         canvas.width / 2 + 2,
         202
       );
@@ -375,6 +377,23 @@ window.addEventListener("load", function () {
     gameOver = false;
     animate(0);
   }
+
+  // for fullscreen button
+  function toggleFullScreen() {
+    console.log(document.fullscreenElement);
+    // document.fullscreenElement proeprtyto check if we are currently in full screen mode.
+    if (!document.fullscreenELement) {
+      // below is asynchronous, returns a promise, which means we can chain .then and .catch methods to run some follow up code when the promise is fullfilled.
+      // catching errors and displaying alert below.
+      canvas.requestFullscreen().catch((err) => {
+        // template literal abckticks syntax to concatonate.
+        alert(`Error, can't enable full-screen mode: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+  fullScreenButton.addEventListener("click", toggleFullScreen);
 
   // instance of classes which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();

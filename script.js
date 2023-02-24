@@ -29,7 +29,8 @@ window.addEventListener("load", function () {
           this.keys.indexOf(e.key) === -1
         ) {
           this.keys.push(e.key);
-        }
+        } // for restarting game, if key pressed ie enter and game over is true, we cal new restart game function below.
+        else if (e.key === "Enter" && gameOver) restartGame();
       });
       // When we release a key, if that key was arrow down, find index of that key inside this.keys array and use splice to remove on element from that array.
       // now when down arrow is pressed it is added, when it is released it is removed.
@@ -60,7 +61,7 @@ window.addEventListener("load", function () {
       // 200 2293/18 = 127.38
       this.widthJump = 127.38;
       this.heightJump = 200;
-      this.x = 0;
+      this.x = 100;
       this.y = this.gameHeight - this.height;
       // bringing in sprite image
       this.image = document.getElementById("playerImage");
@@ -79,6 +80,13 @@ window.addEventListener("load", function () {
       // for vertical movement on up arrow
       this.vy = 0;
       this.weight = 1;
+    }
+    // for resetting player position and state on restart game
+    restart() {
+      this.x = 100;
+      this.y = this.gameHeight - this.height;
+      this.maxFrame = 49;
+      this.frameY = 0;
     }
     draw(context) {
       // for jump sprite sheet
@@ -210,6 +218,10 @@ window.addEventListener("load", function () {
       // reset check, if it went off screen set x position back to 0.
       if (this.x < 0 - this.width) this.x = 0;
     }
+    // retsarting background x position back to 0.
+    restart() {
+      this.x = 0;
+    }
   }
 
   // class to generate enemies
@@ -237,24 +249,6 @@ window.addEventListener("load", function () {
       this.markedForDeletion = false;
     }
     draw(context) {
-      // hitbox
-      // context.strokeStyle = "white";
-      // context.strokeRect(this.x, this.y, this.width, this.height);
-      // context.beginPath();
-      // // circle hitbox need to offset from top left corner.
-      // context.arc(
-      //   this.x + this.width / 2,
-      //   this.y + this.height / 2,
-      //   this.width / 2,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // context.stroke();
-      // // collision circle tweak
-      // context.strokeStyle = "blue";
-      // context.beginPath();
-      // context.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
-      // context.stroke();
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -322,8 +316,17 @@ window.addEventListener("load", function () {
     }
   }
 
-  // game restart
-  function restartGame() {}
+  // game restart, initialising all the below to starting
+  function restartGame() {
+    // calling restart method from player instance
+    player.restart();
+    background.restart();
+    // no need for let enemies etc because not declaring enw variables, just assigning new vlaues to exsisting variables.
+    enemies = [];
+    score = 0;
+    gameOver = false;
+    animate(0);
+  }
 
   // instance of classes which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();

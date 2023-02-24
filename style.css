@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: black;
 }
@@ -7,6 +13,9 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   border: 5px solid white;
+  /* for canvas adapt */
+  max-width: 100%;
+  max-height: 100%;
 }
 #playerImage,
 #playerImageJump,

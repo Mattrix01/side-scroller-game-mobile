@@ -322,6 +322,9 @@ window.addEventListener("load", function () {
     }
   }
 
+  //game restart
+  function restartGame() {}
+
   // instance of classes which will run all the code inside of its contructor. executing the code.
   const input = new InputHandler();
   const player = new Player(canvas.width, canvas.height);

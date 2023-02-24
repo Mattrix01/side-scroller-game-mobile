@@ -17,6 +17,11 @@ window.addEventListener("load", function () {
       // array of keys adding and removing from it as they are pressed and released. keep track of multiple presses.
       // holds information fo which arrow keys are currently pressed.
       this.keys = [];
+      // new properties for swipe touch directions
+      this.touchY = "";
+      // this threshold can be changed depending on how big you want the swipes in order for movement to be registered.
+      this.touchThreshold = 30;
+
       // using ES6 arrow function to make sure JS doesnt forget which object this keys is.
       window.addEventListener("keydown", (e) => {
         // if statement, if key that was pressed is arrow down and if that key is not yet inside the this.keys, only then push it into the array.
@@ -43,6 +48,35 @@ window.addEventListener("load", function () {
         ) {
           this.keys.splice(this.keys.indexOf(e.key), 1);
         }
+      });
+      // created event listener for touch start event, will run whenever user touches browser window
+      // touchstart to set something up,touchmove to make calculation sorts of location, and touchend to do clean up and discard some values.
+      // use value from these touches to determine whether user scrolled up or down and where on screen etc.
+      window.addEventListener("touchstart", (e) => {
+        this.touchY = e.changedTouches[0].pageY;
+      });
+      // as long as user is swiping touchmove instructions fire over and over again detecting dierction
+      window.addEventListener("touchmove", (e) => {
+        const swipeDistance = e.changedTouches[0].pageY - this.touchY;
+        // checking if swipe up is not already in the keys array, if not then swipe
+        if (
+          swipeDistance < this.touchThreshold &&
+          this.keys.indexOf("swipe up") === -1
+        )
+          this.keys.push("swipe up");
+        else if (
+          swipeDistance > this.touchThreshold &&
+          this.keys.indexOf("swipe down") === -1
+        ) {
+          this.keys.push("swipe down");
+          // if gameOver is true swipe down can reset game!
+          if (gameOver) restartGame();
+        }
+      });
+      window.addEventListener("touchend", (e) => {
+        // for clean up after touches using splice method
+        this.keys.splice(this.keys.indexOf("swipe up"), 1);
+        this.keys.splice(this.keys.indexOf("swipe down"), 1);
       });
     }
   }

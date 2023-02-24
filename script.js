@@ -322,7 +322,7 @@ window.addEventListener("load", function () {
     }
   }
 
-  //game restart
+  // game restart
   function restartGame() {}
 
   // instance of classes which will run all the code inside of its contructor. executing the code.

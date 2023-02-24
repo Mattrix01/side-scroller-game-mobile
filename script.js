@@ -184,7 +184,11 @@ window.addEventListener("load", function () {
       } else if (input.keys.indexOf("ArrowLeft") > -1) {
         this.speed = -5;
         // && so player can only jump when on solid ground
-      } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
+      } else if (
+        (input.keys.indexOf("ArrowUp") > -1 ||
+          input.keys.indexOf("swipe up") > -1) &&
+        this.onGround()
+      ) {
         // size of jump
         this.vy -= 32;
       } else {

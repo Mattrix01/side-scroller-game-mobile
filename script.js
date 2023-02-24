@@ -284,6 +284,7 @@ window.addEventListener("load", function () {
   function handleEnemies(deltaTime) {
     if (enemyTimer > enemyInterval + randomEnemyInterval) {
       enemies.push(new Enemy(canvas.width, canvas.height));
+      randomEnemyInterval = Math.random() * 1000 + 500;
       enemyTimer = 0;
     } else {
       enemyTimer += deltaTime;
@@ -301,6 +302,7 @@ window.addEventListener("load", function () {
   // repeating score code to cast shadow as some browsers shadow property causes lag.
   // fillText() method = text we want to draw + x & y coordinates conrext.fillText(text,x,y)
   function displayStatusText(context) {
+    context.textAlign = "left";
     context.font = "40px Helvetica";
     context.fillStyle = "black";
     context.fillText("Score: " + score, 20, 50);
@@ -310,9 +312,17 @@ window.addEventListener("load", function () {
     if (gameOver) {
       context.textAlign = "center";
       context.fillStyle = "black";
-      context.fillText("GAME OVER, TRY AGAIN!", canvas.width / 2, 200);
+      context.fillText(
+        "GAME OVER, PRESS ENTER TO RESTART!",
+        canvas.width / 2,
+        200
+      );
       context.fillStyle = "white";
-      context.fillText("GAME OVER, TRY AGAIN!", canvas.width / 2 + 2, 202);
+      context.fillText(
+        "GAME OVER, PRESS ENTER TO RESTART!",
+        canvas.width / 2 + 2,
+        202
+      );
     }
   }
 
